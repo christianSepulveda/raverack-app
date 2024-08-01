@@ -14,12 +14,19 @@ const makeFetch = async (
     const configuration = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: !token ? "" : token,
+        authorization: !token ? "" : token,
       },
     };
 
     if (method === "POST") {
       const response = await axios.post(url, JSON.stringify(body), {
+        headers: configuration.headers,
+      });
+      return response;
+    }
+
+    if (method === "GET") {
+      const response = await axios.get(url, {
         headers: configuration.headers,
       });
       return response;

@@ -1,4 +1,7 @@
+import COLORS from "../../styles/colors";
 import { StatusBar } from "expo-status-bar";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import {
   View,
   Text,
@@ -6,8 +9,7 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
-import COLORS from "../../styles/colors";
-import Ionicons from "react-native-vector-icons/Ionicons";
+
 import RaveRackInput from "../../components/RaveRackInput";
 import RaveRackButton from "../../components/RaveRackButton";
 
@@ -19,6 +21,7 @@ type Props = {
   onConfigPress: () => void;
   onLogin: () => void;
   errorMessage: string;
+  loading: boolean;
 };
 const LoginScreen = (props: Props) => {
   const ConfigButton = () => (
@@ -61,6 +64,7 @@ const LoginScreen = (props: Props) => {
           text={props.password}
           setText={props.onChangePassword}
           placeholder="Contraseña"
+          secuereTextEntry
         />
 
         {props.errorMessage !== "" && (
@@ -77,7 +81,7 @@ const LoginScreen = (props: Props) => {
         )}
 
         <View style={{ marginVertical: "5%" }} />
-        <RaveRackButton label="Iniciar Sesión" onPress={props.onLogin} />
+        <RaveRackButton label="Iniciar Sesión" onPress={props.onLogin} loading={props.loading}/>
       </KeyboardAvoidingView>
     </View>
   );

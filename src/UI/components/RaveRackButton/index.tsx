@@ -1,9 +1,10 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import COLORS from "../../styles/colors";
 
 type Props = {
   label: string;
   onPress: () => void;
+  loading?: boolean;
 };
 
 const RaveRackButton = (props: Props) => {
@@ -18,10 +19,15 @@ const RaveRackButton = (props: Props) => {
         borderRadius: 5,
       }}
       onPress={props.onPress}
+      disabled={props.loading}
     >
-      <Text style={{ color: COLORS.purple, fontWeight: "600", fontSize: 20 }}>
-        {props.label}
-      </Text>
+      {props.loading ? (
+        <ActivityIndicator color={COLORS.purple} size={20} />
+      ) : (
+        <Text style={{ color: COLORS.purple, fontWeight: "600", fontSize: 20 }}>
+          {props.label}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
