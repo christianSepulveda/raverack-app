@@ -34,7 +34,7 @@ const LoginContainer = () => {
 
       if (typeof response === "string") {
         await AsyncStorage.setItem("token", response);
-        navigation.replace("Menu");
+        navigation.replace("BoxNumbers");
       }
     } catch (error) {
       setErrorMessage("Ocurrió un error, intente de nuevo");
@@ -52,7 +52,7 @@ const LoginContainer = () => {
 
     if (isValid) {
       setTimeout(() => {
-        navigation.replace("Menu");
+        navigation.replace("BoxNumbers");
         setLoadingSession(false);
       }, 3000);
       return;

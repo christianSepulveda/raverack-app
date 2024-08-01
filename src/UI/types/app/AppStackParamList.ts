@@ -2,7 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type AppStackParamList = {
   Login: undefined;
-  Menu: undefined;
+  BoxNumbers: undefined;
   Server: undefined;
 };
 

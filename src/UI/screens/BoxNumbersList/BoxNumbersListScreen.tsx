@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ViewStyle,
 } from "react-native";
 import COLORS from "../../styles/colors";
 import { BoxNumber } from "../../../domain/entities/BoxNumber";
@@ -20,9 +19,10 @@ type Props = {
   setSearch: (search: string) => void;
   onRefresh: () => void;
   onSearch: () => void;
+  onItemPress: (boxNumber: BoxNumber) => void;
 };
 
-const MenuScreen = (props: Props) => {
+const BoxNumberList = (props: Props) => {
   const BoxNumberItem = (boxNumber: BoxNumber) => {
     return (
       <TouchableOpacity
@@ -32,6 +32,7 @@ const MenuScreen = (props: Props) => {
             backgroundColor: boxNumber.available ? COLORS.white : COLORS.purple,
           },
         ]}
+        onPress={() => props.onItemPress(boxNumber)}
       >
         <Text
           style={[
@@ -104,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MenuScreen;
+export default BoxNumberList;
