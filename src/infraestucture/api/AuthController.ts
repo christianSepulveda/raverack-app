@@ -10,6 +10,7 @@ export class AuthController implements UserRepository {
     const error: Error = {
       error: true,
       message: "Usuario o contraseña incorrectos.",
+      status: response.status,
     };
 
     if (response.status !== 200) return error;

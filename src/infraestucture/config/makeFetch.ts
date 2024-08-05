@@ -1,5 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { AppNavigationProps } from "../../UI/types/app/AppStackParamList";
+import { Alert } from "react-native";
 
 const makeFetch = async (
   endpoint: string,
@@ -31,12 +34,23 @@ const makeFetch = async (
       });
       return response;
     }
+
+    if (method === "PUT") {
+      const response = await axios.put(url, JSON.stringify(body), {
+        headers: configuration.headers,
+      });
+      return response;
+    }
   } catch (error: any) {
-    return {
+    console.log(error);
+
+    const response = {
       status: error.response?.status || 500,
       data: error.response?.data || null,
       message: error.message || "Internal Server Error",
     };
+
+    return response;
   }
 };
 

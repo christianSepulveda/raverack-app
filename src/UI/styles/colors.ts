@@ -1,5 +1,6 @@
 const COLORS = {
   gray: "#EEEEEE",
+  darkGray: "#CCCCCC",
   white: "#FFFFFF",
   opacityWhite: "rgba(255, 255, 255, 0.3)",
   red: "#F44336",

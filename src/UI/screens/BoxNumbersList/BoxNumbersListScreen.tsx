@@ -64,7 +64,11 @@ const BoxNumberList = (props: Props) => {
         </View>
 
         <FlatList
-          data={props.boxNumbers.sort((a, b) => a.boxnumber - b.boxnumber)}
+          data={
+            props.boxNumbers && props.boxNumbers.length > 0
+              ? [...props.boxNumbers].sort((a, b) => a.boxnumber - b.boxnumber)
+              : []
+          }
           renderItem={({ item }) => BoxNumberItem(item)}
           contentContainerStyle={styles.flatListContentContainer}
           numColumns={4}

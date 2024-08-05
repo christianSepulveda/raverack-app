@@ -1,24 +1,45 @@
-import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  Alert,
+} from "react-native";
 import React from "react";
 import { BoxNumber } from "../../../domain/entities/BoxNumber";
 import COLORS from "../../styles/colors";
+import FormInput from "../../components/FormInput";
+import { Customer } from "../../../domain/entities/Customer";
+import RaveRackButton from "../../components/RaveRackButton";
+import { Error } from "../../../domain/entities/Error";
 
 type Props = {
   boxNumber: BoxNumber;
+  customer: Customer;
+  setCustomer: (customer: Customer) => void;
+  onCancel: () => void;
+  updateBox: () => void;
+  error: Error;
 };
 
 const BoxNumberDetailsScreen = (props: Props) => {
-  const DescriptionLabels = ({
-    label,
-    value,
-  }: {
-    label: string;
-    value: string;
-  }) => (
-    <Text>
-      {label} : <Text>{value}</Text>
-    </Text>
-  );
+  const customer = props.customer;
+
+  const handleUpdateBox = () => {
+    Alert.alert(
+      "Atención",
+      `Desea ${props.boxNumber.available ? "asignar" : "liberar"} este espacio?`,
+      [
+        {
+          isPreferred: true,
+          text: props.boxNumber.available ? "Asignar" : "Liberar",
+          onPress: props.updateBox,
+        },
+        { text: "Cancelar" },
+      ]
+    );
+  };
 
   return (
     <View
@@ -31,15 +52,72 @@ const BoxNumberDetailsScreen = (props: Props) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <DescriptionLabels
-          label="Número de Casilla"
-          value={props.boxNumber.boxnumber.toString()}
-        />
+        <View style={{ flexDirection: "row" }}>
+          <FormInput
+            label="Número"
+            value={ props.boxNumber.boxnumber ? props.boxNumber.boxnumber.toString() : ""}
+            active={false}
+            flex={4}
+          />
 
-        <DescriptionLabels
-          label="Estado"
-          value={props.boxNumber.available ? "Disponible" : "Ocupado"}
-        />
+          <View style={{ marginHorizontal: 10 }} />
+
+          <FormInput
+            label="Estado"
+            value={props.boxNumber.available ? "Disponible" : "Ocupado"}
+            active={false}
+            flex={8}
+          />
+        </View>
+
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <FormInput
+            label="Nombre"
+            value={customer.fullname ?? ""}
+            active={props.boxNumber.available ? true : false}
+            setValue={(text) =>
+              props.setCustomer({ ...customer, fullname: text })
+            }
+            flex={6}
+          />
+        </View>
+
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <FormInput
+            label="RUT"
+            value={customer.rut ?? ""}
+            active={props.boxNumber.available ? true : false}
+            setValue={(text) => props.setCustomer({ ...customer, rut: text })}
+            keyboardType="numeric"
+            flex={6}
+          />
+        </View>
+
+        {props.error.error && (
+          <Text style={{ color: COLORS.red, marginTop: 10, fontWeight: "600" }}>
+            {props.error.message}
+          </Text>
+        )}
+
+        <View style={{ flexDirection: "row", marginTop: 40 }}>
+          <View style={{ flex: 6, marginEnd: 5 }}>
+            <RaveRackButton
+              label={props.boxNumber.available ? "Asignar" : "Liberar"}
+              onPress={() => handleUpdateBox()}
+              loading={false}
+              mode="dark"
+            />
+          </View>
+
+          <View style={{ flex: 6, marginStart: 5 }}>
+            <RaveRackButton
+              label="Cancelar"
+              onPress={props.onCancel}
+              loading={false}
+              mode="dark"
+            />
+          </View>
+        </View>
       </KeyboardAvoidingView>
     </View>
   );

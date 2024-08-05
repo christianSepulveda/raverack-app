@@ -30,6 +30,7 @@ const LoginContainer = () => {
 
       if (typeof response !== "string") {
         setErrorMessage((response as any).message);
+        setLoading(false);
       }
 
       if (typeof response === "string") {
