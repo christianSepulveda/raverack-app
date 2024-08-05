@@ -2,8 +2,6 @@ import { Error } from "../../domain/entities/Error";
 import { UserRepository } from "../../domain/repositories/UserRepositories";
 import makeFetch from "../config/makeFetch";
 
-type LoginResponse = [{ token: string }];
-
 export class AuthController implements UserRepository {
   async login(username: string, password: string): Promise<string | Error> {
     const body = { username, password };
