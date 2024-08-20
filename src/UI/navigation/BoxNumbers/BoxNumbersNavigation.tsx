@@ -3,42 +3,20 @@ import BoxNumberListContainer from "../../containers/BoxNumbers/BoxNumbersListCo
 import COLORS from "../../styles/colors";
 import BoxNumberDetailsContainer from "../../containers/BoxNumberDetails/BoxNumberDetailsContainer";
 import IonIcons from "react-native-vector-icons/Ionicons";
-import { Alert, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { AppNavigationProps } from "../../types/app/AppStackParamList";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import ConfigNavigation from "../Config/ConfigNavigation";
+import { BoxNumbersNavigationProps } from "../../types/boxNumbers/BoxNumbersParamList";
 
 const AppStack = createNativeStackNavigator();
 
-const LogoutIcon = () => {
-  const appNavigation = useNavigation<AppNavigationProps>();
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
-    appNavigation.replace("Login");
-  };
+const MenuIcon = () => {
+  const configNavigation = useNavigation<BoxNumbersNavigationProps>();
+  const goToConfig = async () => configNavigation.navigate("Config");
 
   return (
-    <TouchableOpacity
-      onPress={() =>
-        Alert.alert(
-          "Cerrar sesión",
-          "¿Estás seguro de que deseas cerrar sesión?",
-          [
-            {
-              text: "Cerrar sesión",
-              style: "destructive",
-              isPreferred: true,
-              onPress: handleLogout,
-            },
-            {
-              text: "Cancelar",
-            },
-          ]
-        )
-      }
-    >
-      <IonIcons name="log-out-outline" size={30} color={COLORS.white} />
+    <TouchableOpacity onPress={goToConfig}>
+      <IonIcons name="menu" size={30} color={COLORS.white} />
     </TouchableOpacity>
   );
 };
@@ -55,7 +33,7 @@ const BoxNumbersNavigation = () => {
           headerShown: true,
           headerTitle: "Custodia",
           headerTitleAlign: "center",
-          headerLeft: () => <LogoutIcon />,
+          headerRight: () => <MenuIcon />,
           headerStyle: { backgroundColor: COLORS.purple },
           headerTitleStyle: { color: COLORS.white, fontWeight: "bold" },
         }}
@@ -73,6 +51,7 @@ const BoxNumbersNavigation = () => {
         }}
         component={BoxNumberDetailsContainer}
       />
+      <AppStack.Screen name="Config" component={ConfigNavigation} />
     </AppStack.Navigator>
   );
 };
