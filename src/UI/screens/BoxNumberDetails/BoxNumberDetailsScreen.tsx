@@ -29,7 +29,9 @@ const BoxNumberDetailsScreen = (props: Props) => {
   const handleUpdateBox = () => {
     Alert.alert(
       "Atención",
-      `Desea ${props.boxNumber.available ? "asignar" : "liberar"} este espacio?`,
+      `Desea ${
+        props.boxNumber.available ? "asignar" : "liberar"
+      } este espacio?`,
       [
         {
           isPreferred: true,
@@ -39,6 +41,11 @@ const BoxNumberDetailsScreen = (props: Props) => {
         { text: "Cancelar" },
       ]
     );
+  };
+
+  const handleSetRut = (text: string) => {
+    const rut = text.replace(/[^0-9kK]/g, "").toUpperCase();
+    props.setCustomer({ ...customer, rut });
   };
 
   return (
@@ -55,7 +62,11 @@ const BoxNumberDetailsScreen = (props: Props) => {
         <View style={{ flexDirection: "row" }}>
           <FormInput
             label="Número"
-            value={ props.boxNumber.boxnumber ? props.boxNumber.boxnumber.toString() : ""}
+            value={
+              props.boxNumber.boxnumber
+                ? props.boxNumber.boxnumber.toString()
+                : ""
+            }
             active={false}
             flex={4}
           />
@@ -76,7 +87,10 @@ const BoxNumberDetailsScreen = (props: Props) => {
             value={customer.fullname ?? ""}
             active={props.boxNumber.available ? true : false}
             setValue={(text) =>
-              props.setCustomer({ ...customer, fullname: text })
+              props.setCustomer({
+                ...customer,
+                fullname: text.replace(/[^a-zA-Z ]/g, "").toUpperCase(),
+              })
             }
             flex={6}
           />
@@ -87,8 +101,7 @@ const BoxNumberDetailsScreen = (props: Props) => {
             label="RUT"
             value={customer.rut ?? ""}
             active={props.boxNumber.available ? true : false}
-            setValue={(text) => props.setCustomer({ ...customer, rut: text })}
-            keyboardType="numeric"
+            setValue={(text) => handleSetRut(text)}
             flex={6}
           />
         </View>

@@ -1,7 +1,10 @@
 import { BoxNumber } from "../../domain/entities/BoxNumber";
 import { Error } from "../../domain/entities/Error";
 import { BoxNumberRepository } from "../../domain/repositories/BoxNumberRepositories";
-import { updatedBox } from "../../UI/types/boxNumbers/BoxNumberResponse";
+import {
+  createdBoxNumbers,
+  updatedBox,
+} from "../../UI/types/boxNumbers/BoxNumberResponse";
 import makeFetch from "../config/makeFetch";
 
 export class BoxNumbersController implements BoxNumberRepository {
@@ -40,6 +43,21 @@ export class BoxNumbersController implements BoxNumberRepository {
       boxNumber,
       fullname: customerName,
       rut: customerRut,
+    });
+
+    const error: Error = {
+      error: true,
+      message: "No se pudo actualizar el registro.",
+      status: response.status,
+    };
+
+    if (response.status !== 200) return error;
+    return response.data;
+  }
+
+  async addBoxNumbers(amount: number): Promise<createdBoxNumbers | Error> {
+    const response = await makeFetch(`boxnumber/create`, "POST", {
+      numberOfBoxes: amount,
     });
 
     const error: Error = {

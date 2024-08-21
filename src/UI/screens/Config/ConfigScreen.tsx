@@ -3,10 +3,14 @@ import React from "react";
 import { ConfigMenuType } from "../../types/config/ConfigMenu";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import COLORS from "../../styles/colors";
+import AddBoxNumbersModal from "./AddBoxNumbers/AddBoxNumbersModal";
 
 type Props = {
   handleLogout: () => void;
   goToCustomers: () => void;
+  showAddBoxNumbersModal: boolean;
+  setShowAddBoxNumbersModal: () => void;
+  onAddBoxNumbers: (amount: number) => void;
 };
 
 const ConfigScreen = (props: Props) => {
@@ -22,7 +26,7 @@ const ConfigScreen = (props: Props) => {
           style={{ flex: 1 }}
         />
       ),
-      action: () => console.log("Agregar Espacios"),
+      action: () => props.setShowAddBoxNumbersModal(),
     },
     {
       id: "2",
@@ -80,6 +84,12 @@ const ConfigScreen = (props: Props) => {
       <FlatList
         data={ConfigMenuOptions}
         renderItem={(item) => MenuItem(item)}
+      />
+
+      <AddBoxNumbersModal
+        visibility={props.showAddBoxNumbersModal}
+        onCancel={props.setShowAddBoxNumbersModal}
+        onAddBoxNumbers={props.onAddBoxNumbers}
       />
     </View>
   );

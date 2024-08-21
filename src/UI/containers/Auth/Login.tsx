@@ -44,9 +44,30 @@ const LoginContainer = () => {
     }
   };
 
+  const base64UrlToBase64 = (base64Url: string) => {
+    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4 !== 0) {
+      base64 += "=";
+    }
+    return base64;
+  };
+
   const checkSession = async () => {
     const token = await AsyncStorage.getItem("token");
-    const decodedToken = token ? JSON.parse(atob(token.split(".")[1])) : null;
+    let decodedToken = "" as any;
+
+    if (token && token.length > 0) {
+      try {
+        const payload = token.split(".")[1];
+        const base64Payload = base64UrlToBase64(payload);
+        decodedToken = JSON.parse(atob(base64Payload));
+      } catch (error) {
+        console.log("Invalid token:", error);
+        await AsyncStorage.removeItem("token");
+        setLoadingSession(false);
+        return;
+      }
+    }
 
     const isValid =
       decodedToken && decodedToken.exp && decodedToken.exp > Date.now() / 1000;

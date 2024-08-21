@@ -1,4 +1,7 @@
-import { updatedBox } from "../../UI/types/boxNumbers/BoxNumberResponse";
+import {
+  createdBoxNumbers,
+  updatedBox,
+} from "../../UI/types/boxNumbers/BoxNumberResponse";
 import { BoxNumber } from "../entities/BoxNumber";
 import { Error } from "../entities/Error";
 
@@ -10,4 +13,5 @@ export interface BoxNumberRepository {
     customerName: string | null,
     customerRut: string | null
   ): Promise<updatedBox[] | Error>;
+  addBoxNumbers(amount: number): Promise<createdBoxNumbers | Error>;
 }

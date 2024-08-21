@@ -5,7 +5,7 @@ import makeFetch from "../config/makeFetch";
 
 export class CustomerController implements CustomerRepository {
   async getAllCustomers(): Promise<Customer[] | Error> {
-    const response = await makeFetch("customer/get", "GET");
+    const response = await makeFetch("customer/all", "GET");
 
     const error: Error = {
       error: true,
