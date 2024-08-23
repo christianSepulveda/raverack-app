@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import COLORS from "../../styles/colors";
 import { BoxNumber } from "../../../domain/entities/BoxNumber";
@@ -60,21 +61,32 @@ const BoxNumberList = (props: Props) => {
             onSubmitEditing={props.onSearch}
             text={props.search}
             setText={props.setSearch}
+            editable={!props.loading}
           />
         </View>
 
-        <FlatList
-          data={
-            props.boxNumbers && props.boxNumbers.length > 0
-              ? [...props.boxNumbers].sort((a, b) => a.boxnumber - b.boxnumber)
-              : []
-          }
-          renderItem={({ item }) => BoxNumberItem(item)}
-          contentContainerStyle={styles.flatListContentContainer}
-          numColumns={4}
-          onRefresh={props.onRefresh}
-          refreshing={props.loading}
-        />
+        {props.loading && props.boxNumbers.length === 0 ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size="large" color={COLORS.purple} />
+          </View>
+        ) : (
+          <FlatList
+            data={
+              props.boxNumbers && props.boxNumbers.length > 0
+                ? [...props.boxNumbers].sort(
+                    (a, b) => a.boxnumber - b.boxnumber
+                  )
+                : []
+            }
+            renderItem={({ item }) => BoxNumberItem(item)}
+            contentContainerStyle={styles.flatListContentContainer}
+            numColumns={4}
+            onRefresh={props.onRefresh}
+            refreshing={props.loading}
+          />
+        )}
       </KeyboardAvoidingView>
     </View>
   );

@@ -1,12 +1,20 @@
-import { StyleSheet, View, Modal, Text, TextInput } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Modal,
+  Text,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import COLORS from "../../../styles/colors";
 import RaveRackButton from "../../../components/RaveRackButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   visibility: boolean;
   onCancel: () => void;
   onAddBoxNumbers: (amount: number) => void;
+  loading: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -19,7 +27,11 @@ const styles = StyleSheet.create({
 });
 
 const AddBoxNumbersModal = (props: Props) => {
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<string>("");
+
+  useEffect(() => {
+    if (!props.visibility) setAmount("");
+  }, [props.visibility]);
 
   return (
     <Modal animationType="slide" transparent={true} visible={props.visibility}>
@@ -40,26 +52,30 @@ const AddBoxNumbersModal = (props: Props) => {
 
           <View style={{ margin: 15 }} />
 
-          <TextInput
-            placeholder="N°"
-            keyboardType="number-pad"
-            style={{
-              backgroundColor: COLORS.gray,
-              width: "20%",
-              padding: 20,
-              textAlign: "center",
-              fontSize: 30,
-              fontWeight: "500",
-              borderRadius: 5,
-            }}
-            value={amount.toString()}
-            maxLength={2}
-            onChangeText={(text) => {
-              const formatedText =
-                text === "" ? "0" : text.replace(/[^0-9]/g, "");
-              setAmount(parseInt(formatedText));
-            }}
-          />
+          {props.loading ? (
+            <ActivityIndicator size={"large"} color={COLORS.purple} />
+          ) : (
+            <TextInput
+              placeholder="N°"
+              keyboardType="number-pad"
+              style={{
+                backgroundColor: COLORS.gray,
+                width: "20%",
+                padding: 20,
+                textAlign: "center",
+                fontSize: 30,
+                fontWeight: "500",
+                borderRadius: 5,
+              }}
+              value={amount}
+              maxLength={2}
+              onChangeText={(text) => {
+                const formatedText =
+                  text === "" ? "" : text.replace(/[^0-9]/g, "");
+                setAmount(formatedText);
+              }}
+            />
+          )}
 
           <View style={{ margin: 15 }} />
 
@@ -68,8 +84,7 @@ const AddBoxNumbersModal = (props: Props) => {
               <RaveRackButton
                 label={"Agregar"}
                 onPress={() => {
-                  props.onAddBoxNumbers(amount);
-                  setAmount(0);
+                  props.onAddBoxNumbers(parseInt(amount));
                 }}
                 loading={false}
                 mode="dark"
@@ -81,7 +96,6 @@ const AddBoxNumbersModal = (props: Props) => {
                 label="Cancelar"
                 onPress={() => {
                   props.onCancel();
-                  setAmount(0);
                 }}
                 loading={false}
                 mode="dark"

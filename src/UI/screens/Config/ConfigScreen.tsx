@@ -11,6 +11,7 @@ type Props = {
   showAddBoxNumbersModal: boolean;
   setShowAddBoxNumbersModal: () => void;
   onAddBoxNumbers: (amount: number) => void;
+  loadingAmount: boolean;
 };
 
 const ConfigScreen = (props: Props) => {
@@ -90,6 +91,7 @@ const ConfigScreen = (props: Props) => {
         visibility={props.showAddBoxNumbersModal}
         onCancel={props.setShowAddBoxNumbersModal}
         onAddBoxNumbers={props.onAddBoxNumbers}
+        loading={props.loadingAmount}
       />
     </View>
   );

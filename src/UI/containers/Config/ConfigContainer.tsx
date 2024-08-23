@@ -23,6 +23,7 @@ const ConfigContainer = (props: Props) => {
   const createBoxNumbers = new addBoxNumbers(boxNumberRepository);
 
   const [showAddBoxNumbersModal, setShowAddBoxNumbersModal] = useState(false);
+  const [loadingAmount, setLoadingAmount] = useState(false);
 
   const goToCustomers = async () => configNavigation.navigate("Customers");
 
@@ -32,6 +33,7 @@ const ConfigContainer = (props: Props) => {
   };
 
   const makeAddBoxNumbers = async (amount: number) => {
+    setLoadingAmount(true);
     const response = (await createBoxNumbers.execute(
       amount
     )) as createdBoxNumbers & Error;
@@ -39,6 +41,7 @@ const ConfigContainer = (props: Props) => {
 
     if (response.error) Alert.alert("Error", response.message);
     else Alert.alert("Éxito", "Se han agregado los espacios correctamente");
+    setLoadingAmount(false);
   };
 
   const handleLogout = () => {
@@ -74,6 +77,7 @@ const ConfigContainer = (props: Props) => {
       setShowAddBoxNumbersModal={() =>
         setShowAddBoxNumbersModal(!showAddBoxNumbersModal)
       }
+      loadingAmount={loadingAmount}
     />
   );
 };

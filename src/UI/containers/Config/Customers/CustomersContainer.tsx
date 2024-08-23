@@ -11,17 +11,21 @@ const CustomersContainer = (props: Props) => {
   const customerRepository = new CustomerController();
   const getCustomers = new getAllCustomers(customerRepository);
 
+  const [loading, setLoading] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
+
   const [search, setSearch] = useState<string>("");
   const [error, setError] = useState<Error>({ error: false, message: "" });
 
   const handleGetCustomers = async () => {
+    setLoading(true);
     const response = (await getCustomers.execute()) as Customer[] & Error;
 
     if (response.length > 0) {
       setFilteredCustomers(response);
       setCustomers(response);
+      setLoading(false);
       return;
     }
 
@@ -32,6 +36,7 @@ const CustomersContainer = (props: Props) => {
         status: response.status,
       });
     }
+    setLoading(false);
   };
 
   const filterCustomers = () => {
@@ -65,6 +70,7 @@ const CustomersContainer = (props: Props) => {
       error={error}
       search={search}
       setSearch={setSearch}
+      loading={loading}
     />
   );
 };

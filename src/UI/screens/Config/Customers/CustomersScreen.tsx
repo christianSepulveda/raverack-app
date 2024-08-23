@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import React from "react";
 import COLORS from "../../../styles/colors";
 import { Customer } from "../../../../domain/entities/Customer";
@@ -10,6 +10,7 @@ type Props = {
   error: Error;
   search: string;
   setSearch: (search: string) => void;
+  loading: boolean;
 };
 
 const CustomersScreen = (props: Props) => {
@@ -62,10 +63,17 @@ const CustomersScreen = (props: Props) => {
         onSubmitEditing={() => {}}
       />
 
-      <FlatList
-        data={props.customers}
-        renderItem={(item) => RenderItem(item.item, item.index)}
-      />
+      {props.loading ? (
+        <>
+          <View style={{ marginTop: 20 }} />
+          <ActivityIndicator size="large" color={COLORS.purple} />
+        </>
+      ) : (
+        <FlatList
+          data={props.customers}
+          renderItem={(item) => RenderItem(item.item, item.index)}
+        />
+      )}
     </View>
   );
 };

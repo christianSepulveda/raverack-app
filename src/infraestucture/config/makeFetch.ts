@@ -12,7 +12,9 @@ const makeFetch = async (
   try {
     const serverIP = await AsyncStorage.getItem("serverIP");
     const token = await AsyncStorage.getItem("token");
-    const url = `http://${serverIP}/${endpoint}`;
+    const url = `https://${serverIP}/${endpoint}`;
+
+    //const url = "https://raverack-api-nodejs.onrender.com/" + endpoint;
 
     const configuration = {
       headers: {
@@ -20,6 +22,12 @@ const makeFetch = async (
         authorization: !token ? "" : token,
       },
     };
+
+    console.log("------------------------------------------------------------------");
+    console.log("METHOD: ", method);
+    console.log("URL: ", url);
+    console.log("BODY: ", JSON.stringify(body));
+    console.log("HEADERS: ", configuration);
 
     if (method === "POST") {
       const response = await axios.post(url, JSON.stringify(body), {

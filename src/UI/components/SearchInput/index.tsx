@@ -7,6 +7,7 @@ type Props = {
   onSubmitEditing: () => void;
   text: string;
   setText: (text: string) => void;
+  editable?: boolean;
 };
 
 const SearchInput = (props: Props) => {
@@ -30,6 +31,7 @@ const SearchInput = (props: Props) => {
           color: COLORS.blueGrey,
           fontSize: 18,
         }}
+        editable={props.editable}
         placeholder="Buscar"
         placeholderTextColor={"gray"}
         inputMode={props.inputType}

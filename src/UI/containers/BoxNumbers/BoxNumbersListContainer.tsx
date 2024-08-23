@@ -25,6 +25,7 @@ const BoxNumberListContainer = (props: Props) => {
   const [loading, setLoading] = useState(true);
 
   const handleGetBoxNumbers = async () => {
+    setLoading(true);
     const response = (await getBoxNumbers.execute()) as BoxNumber[] & Error;
 
     if (response.status === 401) {

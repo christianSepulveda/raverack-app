@@ -33,12 +33,12 @@ const BoxNumberDetailsScreen = (props: Props) => {
         props.boxNumber.available ? "asignar" : "liberar"
       } este espacio?`,
       [
+        { text: "Cancelar" },
         {
           isPreferred: true,
           text: props.boxNumber.available ? "Asignar" : "Liberar",
           onPress: props.updateBox,
         },
-        { text: "Cancelar" },
       ]
     );
   };

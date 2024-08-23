@@ -12,8 +12,9 @@ import { Error } from "../../../domain/entities/Error";
 import { Customer } from "../../../domain/entities/Customer";
 import { updatedBox } from "../../types/boxNumbers/BoxNumberResponse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 import { AppNavigationProps } from "../../types/app/AppStackParamList";
+import COLORS from "../../styles/colors";
 
 const BoxNumberDetailsContainer = () => {
   const rootNavigation = useNavigation<AppNavigationProps>();
@@ -24,6 +25,7 @@ const BoxNumberDetailsContainer = () => {
   const route = useRoute<RouteProp<BoxNumbersParamList, "BoxNumberDetail">>();
 
   const [boxNumber, setBoxNumber] = useState(route.params.boxNumber);
+  const [loading, setLoading] = useState(true);
   const [customer, setCustomer] = useState<Customer>({} as Customer);
   const [error, setError] = useState<Error>({} as Error);
 
@@ -31,6 +33,7 @@ const BoxNumberDetailsContainer = () => {
     const formatedBoxNumber =
       route.params.boxNumber?.boxnumber.toString() ?? "";
 
+    setLoading(true);
     const response = (await boxNumberDetails.execute(
       formatedBoxNumber
     )) as BoxNumber[] & Error;
@@ -43,6 +46,7 @@ const BoxNumberDetailsContainer = () => {
 
     setBoxNumber(response[0]);
     setCustomer(response[0].customer ?? ({} as Customer));
+    setLoading(false);
   };
 
   const isValidCustomer = () => {
@@ -59,6 +63,7 @@ const BoxNumberDetailsContainer = () => {
     const isValid = isValidCustomer();
     if (!isValid) return;
 
+    setLoading(true);
     const response = (await boxNumberRepository.updateBoxNumber(
       boxNumber?.boxnumber.toString() ?? "",
       customer.fullname,
@@ -66,6 +71,7 @@ const BoxNumberDetailsContainer = () => {
     )) as updatedBox[] & Error;
 
     if (response.status === 401) {
+      setLoading(false);
       await AsyncStorage.removeItem("token");
       Alert.alert("Sesión expirada", "Por favor inicie sesión nuevamente.");
       rootNavigation.replace("Login");
@@ -73,9 +79,11 @@ const BoxNumberDetailsContainer = () => {
 
     if (response.error) {
       setError({ error: true, message: response.message ?? "" });
+      setLoading(false);
       return;
     }
 
+    setLoading(false);
     navigation.goBack();
   };
 
@@ -84,6 +92,14 @@ const BoxNumberDetailsContainer = () => {
   useEffect(() => {
     handleGetBoxNumberDetails();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={COLORS.purple} />
+      </View>
+    );
+  }
 
   return (
     <BoxNumberDetailsScreen
