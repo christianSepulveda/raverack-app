@@ -12,7 +12,7 @@ const makeFetch = async (
   try {
     const serverIP = await AsyncStorage.getItem("serverIP");
     const token = await AsyncStorage.getItem("token");
-    const url = `https://${serverIP}/${endpoint}`;
+    const url = `http://${serverIP}/${endpoint}`;
 
     //const url = "https://raverack-api-nodejs.onrender.com/" + endpoint;
 
