@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import COLORS from "../../styles/colors";
 import ConfigContainer from "../../containers/Config/ConfigContainer";
 import CustomersContainer from "../../containers/Config/Customers/CustomersContainer";
+import CreateTablesContainer from "../../containers/Config/Tables/CreateTablesContainer";
 
 type Props = {};
 
@@ -15,6 +15,7 @@ const ConfigNavigation = (props: Props) => {
     >
       <ConfigStack.Screen name="ConfigMenu" component={ConfigContainer} />
       <ConfigStack.Screen name="Customers" component={CustomersContainer} />
+      <ConfigStack.Screen name="CreateTables" component={CreateTablesContainer} />
     </ConfigStack.Navigator>
   );
 };

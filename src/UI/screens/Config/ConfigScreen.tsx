@@ -12,13 +12,14 @@ type Props = {
   setShowAddBoxNumbersModal: () => void;
   onAddBoxNumbers: (amount: number) => void;
   loadingAmount: boolean;
+  goToCreateTables: () => void;
 };
 
 const ConfigScreen = (props: Props) => {
   const ConfigMenuOptions: ConfigMenuType[] = [
     {
       id: "1",
-      label: "Agregar Espacios",
+      label: "Agregar Espacios de Custodia.",
       icon: () => (
         <Ionicons
           name="add-circle"
@@ -31,7 +32,20 @@ const ConfigScreen = (props: Props) => {
     },
     {
       id: "2",
-      label: "Ver Historico de Clientes",
+      label: "Agregar Mesas para Reservas.",
+      icon: () => (
+        <Ionicons
+          name="restaurant-sharp"
+          size={24}
+          color={COLORS.purple}
+          style={{ flex: 1 }}
+        />
+      ),
+      action: props.goToCreateTables,
+    },
+    {
+      id: "3",
+      label: "Ver Historico de Clientes.",
       icon: () => (
         <Ionicons
           name="person"
@@ -44,7 +58,7 @@ const ConfigScreen = (props: Props) => {
     },
     {
       id: "4",
-      label: "Cerrar Sesión",
+      label: "Cerrar Sesión.",
       icon: () => (
         <Ionicons
           name="log-out"
