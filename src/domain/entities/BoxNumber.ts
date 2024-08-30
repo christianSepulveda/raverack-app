@@ -5,4 +5,5 @@ export interface BoxNumber {
   boxnumber: number;
   customer: Customer | null;
   available: boolean;
+  companyid: string;
 }

@@ -31,6 +31,7 @@ const ConfigContainer = (props: Props) => {
 
   const makeLogout = async () => {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
     appNavigation.replace("Login");
   };
 

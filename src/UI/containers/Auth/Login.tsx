@@ -40,6 +40,8 @@ const LoginContainer = () => {
         await AsyncStorage.setItem("token", response);
         await AsyncStorage.setItem("user", JSON.stringify(decodedToken));
 
+        console.log(JSON.stringify(decodedToken));
+
         navigation.replace("DrawerMenu");
       }
     } catch (error) {

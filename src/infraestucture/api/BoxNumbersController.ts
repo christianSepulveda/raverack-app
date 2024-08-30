@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BoxNumber } from "../../domain/entities/BoxNumber";
 import { Error } from "../../domain/entities/Error";
 import { BoxNumberRepository } from "../../domain/repositories/BoxNumberRepositories";
@@ -6,10 +7,16 @@ import {
   updatedBox,
 } from "../../UI/types/boxNumbers/BoxNumberResponse";
 import makeFetch from "../config/makeFetch";
+import { User } from "../../domain/entities/Users";
 
 export class BoxNumbersController implements BoxNumberRepository {
   async getAllBoxNumbers(): Promise<BoxNumber[] | Error> {
-    const response = await makeFetch("boxnumber/get", "POST", {});
+    const stringUser = await AsyncStorage.getItem("user");
+    const user = JSON.parse(stringUser || "{}") as User;
+
+    const response = await makeFetch("boxnumber/get", "POST", {
+      companyid: user.companyid,
+    });
 
     const error: Error = {
       error: true,
@@ -56,8 +63,12 @@ export class BoxNumbersController implements BoxNumberRepository {
   }
 
   async addBoxNumbers(amount: number): Promise<createdBoxNumbers | Error> {
+    const stringUser = await AsyncStorage.getItem("user");
+    const user = JSON.parse(stringUser || "{}") as User;
+
     const response = await makeFetch(`boxnumber/create`, "POST", {
       numberOfBoxes: amount,
+      companyid: user.companyid,
     });
 
     const error: Error = {
