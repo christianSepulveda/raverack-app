@@ -30,12 +30,11 @@ const BoxNumberDetailsContainer = () => {
   const [error, setError] = useState<Error>({} as Error);
 
   const handleGetBoxNumberDetails = async () => {
-    const formatedBoxNumber =
-      route.params.boxNumber?.boxnumber.toString() ?? "";
+    const boxnumberid = boxNumber?.id?.toString() ?? "";
 
     setLoading(true);
     const response = (await boxNumberDetails.execute(
-      formatedBoxNumber
+      boxnumberid
     )) as BoxNumber[] & Error;
 
     if (response.status === 401) {
@@ -65,7 +64,7 @@ const BoxNumberDetailsContainer = () => {
 
     setLoading(true);
     const response = (await boxNumberRepository.updateBoxNumber(
-      boxNumber?.boxnumber.toString() ?? "",
+      boxNumber?.id?.toString() ?? "",
       customer.fullname,
       customer.rut
     )) as updatedBox[] & Error;

@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BoxNumber } from "../../domain/entities/BoxNumber";
 import { Error } from "../../domain/entities/Error";
 import { BoxNumberRepository } from "../../domain/repositories/BoxNumberRepositories";
@@ -7,12 +6,11 @@ import {
   updatedBox,
 } from "../../UI/types/boxNumbers/BoxNumberResponse";
 import makeFetch from "../config/makeFetch";
-import { User } from "../../domain/entities/Users";
+import getUser from "../config/getUser";
 
 export class BoxNumbersController implements BoxNumberRepository {
   async getAllBoxNumbers(): Promise<BoxNumber[] | Error> {
-    const stringUser = await AsyncStorage.getItem("user");
-    const user = JSON.parse(stringUser || "{}") as User;
+    const user = await getUser();
 
     const response = await makeFetch("boxnumber/get", "POST", {
       companyid: user.companyid,
@@ -27,9 +25,9 @@ export class BoxNumbersController implements BoxNumberRepository {
     if (response.status !== 200) return error;
     return response.data;
   }
-  async getBoxNumberDetails(boxNumber: string): Promise<BoxNumber[] | Error> {
+  async getBoxNumberDetails(boxnumberid: string): Promise<BoxNumber[] | Error> {
     const response = await makeFetch(`boxnumber/get`, "POST", {
-      boxNumber,
+      boxnumberid,
     });
 
     const error: Error = {
@@ -42,14 +40,17 @@ export class BoxNumbersController implements BoxNumberRepository {
     return response.data;
   }
   async updateBoxNumber(
-    boxNumber: string,
+    boxnumberid: string,
     customerName: string | null,
     customerRut: string | null
   ): Promise<updatedBox[] | Error> {
+    const user = await getUser();
+
     const response = await makeFetch(`boxnumber/update`, "PUT", {
-      boxNumber,
+      boxnumberid,
       fullname: customerName,
       rut: customerRut,
+      companyid: user.companyid,
     });
 
     const error: Error = {
@@ -63,8 +64,7 @@ export class BoxNumbersController implements BoxNumberRepository {
   }
 
   async addBoxNumbers(amount: number): Promise<createdBoxNumbers | Error> {
-    const stringUser = await AsyncStorage.getItem("user");
-    const user = JSON.parse(stringUser || "{}") as User;
+    const user = await getUser();
 
     const response = await makeFetch(`boxnumber/create`, "POST", {
       numberOfBoxes: amount,
