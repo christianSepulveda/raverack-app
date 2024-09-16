@@ -31,19 +31,6 @@ const ConfigScreen = (props: Props) => {
       action: () => props.setShowAddBoxNumbersModal(),
     },
     {
-      id: "2",
-      label: "Agregar Mesas para Reservas.",
-      icon: () => (
-        <Ionicons
-          name="restaurant-sharp"
-          size={24}
-          color={COLORS.purple}
-          style={{ flex: 1 }}
-        />
-      ),
-      action: props.goToCreateTables,
-    },
-    {
       id: "3",
       label: "Ver Historico de Clientes.",
       icon: () => (

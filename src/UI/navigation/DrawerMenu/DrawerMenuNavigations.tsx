@@ -7,6 +7,7 @@ import ConfigNavigation from "../Config/ConfigNavigation";
 import COLORS from "../../styles/colors";
 import DrawerMenuScreen from "../../screens/DrawerMenu/DrawerMenuScreen";
 import IonIcons from "react-native-vector-icons/Ionicons";
+import ReservationNavigation from "../Reservation/ReservationNavigation";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,10 +29,25 @@ const DrawerProps: DrawerNavigationOptions = {
 function DrawerMenu() {
   return (
     <Drawer.Navigator
-      initialRouteName="BoxNumbers"
+      initialRouteName="Reservations"
       drawerContent={(props) => <DrawerMenuScreen DrawerProps={props} />}
       screenOptions={{ ...DrawerProps }}
     >
+      <Drawer.Screen
+        name="Reservations"
+        component={ReservationNavigation}
+        options={{
+          headerTitle: "Reservas",
+          drawerLabel: "Reservas",
+          drawerIcon: ({ focused }) => (
+            <IonIcons
+              name="document-text"
+              size={20}
+              color={focused ? COLORS.white : "gray"}
+            />
+          ),
+        }}
+      />
       <Drawer.Screen
         name="BoxNumbers"
         component={BoxNumbersNavigation}
