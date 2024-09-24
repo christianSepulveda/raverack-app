@@ -18,6 +18,8 @@ const index = (props: Props) => {
         flex: props.flex,
         backgroundColor: COLORS.white,
         borderRadius: 5,
+        height: 60,
+        justifyContent: "center",
       }}
     >
       <TextInput

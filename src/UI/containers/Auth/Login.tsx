@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import VerifySession from "../../screens/Auth/VerifySession";
 import LoginScreen from "../../screens/Auth/Login";
+import { decodeToken } from "../../../infraestucture/config/tokenHandler";
 
 const LoginContainer = () => {
   const userRepository = new AuthController();
@@ -33,9 +34,15 @@ const LoginContainer = () => {
         setLoading(false);
       }
 
-      if (typeof response === "string") {
+      if (response && typeof response === "string") {
+        const decodedToken = await decodeToken(response);
+
         await AsyncStorage.setItem("token", response);
-        navigation.replace("BoxNumbers");
+        await AsyncStorage.setItem("user", JSON.stringify(decodedToken));
+
+        console.log(JSON.stringify(decodedToken));
+
+        navigation.replace("DrawerMenu");
       }
     } catch (error) {
       setErrorMessage("Ocurrió un error, intente de nuevo");
@@ -44,29 +51,12 @@ const LoginContainer = () => {
     }
   };
 
-  const base64UrlToBase64 = (base64Url: string) => {
-    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    while (base64.length % 4 !== 0) {
-      base64 += "=";
-    }
-    return base64;
-  };
-
   const checkSession = async () => {
     const token = await AsyncStorage.getItem("token");
     let decodedToken = "" as any;
 
     if (token && token.length > 0) {
-      try {
-        const payload = token.split(".")[1];
-        const base64Payload = base64UrlToBase64(payload);
-        decodedToken = JSON.parse(atob(base64Payload));
-      } catch (error) {
-        console.log("Invalid token:", error);
-        await AsyncStorage.removeItem("token");
-        setLoadingSession(false);
-        return;
-      }
+      decodedToken = await decodeToken(token);
     }
 
     const isValid =
@@ -74,7 +64,7 @@ const LoginContainer = () => {
 
     if (isValid) {
       setTimeout(() => {
-        navigation.replace("BoxNumbers");
+        navigation.replace("DrawerMenu");
         setLoadingSession(false);
       }, 3000);
       return;

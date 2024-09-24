@@ -46,7 +46,7 @@ const BoxNumberListContainer = (props: Props) => {
     }
 
     const filtered = boxNumbers.filter((boxNumber) =>
-      boxNumber.boxnumber.toString().includes(search)
+      boxNumber.customer?.rut.toString().includes(search)
     );
     setFilteredBoxNumbers(filtered);
   };

@@ -26,9 +26,12 @@ const ConfigContainer = (props: Props) => {
   const [loadingAmount, setLoadingAmount] = useState(false);
 
   const goToCustomers = async () => configNavigation.navigate("Customers");
+  const goToCreateTables = async () =>
+    configNavigation.navigate("CreateTables");
 
   const makeLogout = async () => {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
     appNavigation.replace("Login");
   };
 
@@ -72,6 +75,7 @@ const ConfigContainer = (props: Props) => {
     <ConfigScreen
       handleLogout={handleLogout}
       goToCustomers={goToCustomers}
+      goToCreateTables={goToCreateTables}
       onAddBoxNumbers={handleAddBoxNumbers}
       showAddBoxNumbersModal={showAddBoxNumbersModal}
       setShowAddBoxNumbersModal={() =>

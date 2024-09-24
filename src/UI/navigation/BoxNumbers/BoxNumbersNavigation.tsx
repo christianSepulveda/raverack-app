@@ -29,29 +29,12 @@ const BoxNumbersNavigation = () => {
     >
       <AppStack.Screen
         name="BoxNumberList"
-        options={{
-          headerShown: true,
-          headerTitle: "Custodia",
-          headerTitleAlign: "center",
-          headerRight: () => <MenuIcon />,
-          headerStyle: { backgroundColor: COLORS.purple },
-          headerTitleStyle: { color: COLORS.white, fontWeight: "bold" },
-        }}
         component={BoxNumberListContainer}
       />
       <AppStack.Screen
         name="BoxNumberDetail"
-        options={{
-          headerShown: true,
-          headerTitle: "Detalle de Custodia",
-          headerTitleAlign: "center",
-          headerLeft: () => <></>,
-          headerStyle: { backgroundColor: COLORS.purple },
-          headerTitleStyle: { color: COLORS.white, fontWeight: "bold" },
-        }}
         component={BoxNumberDetailsContainer}
       />
-      <AppStack.Screen name="Config" component={ConfigNavigation} />
     </AppStack.Navigator>
   );
 };

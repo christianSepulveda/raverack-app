@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import COLORS from "../../styles/colors";
 import ConfigContainer from "../../containers/Config/ConfigContainer";
 import CustomersContainer from "../../containers/Config/Customers/CustomersContainer";
 
@@ -13,30 +12,8 @@ const ConfigNavigation = (props: Props) => {
       initialRouteName="ConfigMenu"
       screenOptions={{ headerShown: false }}
     >
-      <ConfigStack.Screen
-        name="ConfigMenu"
-        options={{
-          headerShown: true,
-          headerTitle: "Opciones",
-          headerTitleAlign: "center",
-          headerLeft: () => <></>,
-          headerStyle: { backgroundColor: COLORS.purple },
-          headerTitleStyle: { color: COLORS.white, fontWeight: "bold" },
-        }}
-        component={ConfigContainer}
-      />
-      <ConfigStack.Screen
-        name="Customers"
-        options={{
-          headerShown: true,
-          headerTitle: "Historico de Clientes",
-          headerTitleAlign: "center",
-          headerLeft: () => <></>,
-          headerStyle: { backgroundColor: COLORS.purple },
-          headerTitleStyle: { color: COLORS.white, fontWeight: "bold" },
-        }}
-        component={CustomersContainer}
-      />
+      <ConfigStack.Screen name="ConfigMenu" component={ConfigContainer} />
+      <ConfigStack.Screen name="Customers" component={CustomersContainer} />
     </ConfigStack.Navigator>
   );
 };
