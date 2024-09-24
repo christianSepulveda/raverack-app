@@ -1,6 +1,6 @@
 {
-  "name": "mobile-wardrobe-app",
-  "version": "1.0.0",
+  "name": "raverack-app",
+  "version": "2.1.0",
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
