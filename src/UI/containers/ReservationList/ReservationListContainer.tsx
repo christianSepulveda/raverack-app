@@ -42,14 +42,22 @@ const ReservationListContainer = (props: Props) => {
 
       response.map((item) => {
         const date = new Date(item.date);
-        const currentDate = new Date();
+        const today = new Date();
+        const tomorrow = new Date(today);
+        
+        tomorrow.setDate(today.getDate() + 1);
 
-        if (date < currentDate && item.active) {
+        if (date < today && item.active) {
           reservationList.push(item);
           return;
         }
 
-        if (date.toDateString() === currentDate.toDateString()) {
+        if (date.toDateString() === today.toDateString()) {
+          reservationList.push(item);
+          return;
+        }
+
+        if (date.toDateString() === tomorrow.toDateString()) {
           reservationList.push(item);
           return;
         }

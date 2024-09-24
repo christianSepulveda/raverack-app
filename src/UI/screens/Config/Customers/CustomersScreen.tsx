@@ -1,9 +1,16 @@
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import COLORS from "../../../styles/colors";
 import { Customer } from "../../../../domain/entities/Customer";
 import { Error } from "../../../../domain/entities/Error";
 import SearchInput from "../../../components/SearchInput";
+import IonIcons from "react-native-vector-icons/Ionicons";
 
 type Props = {
   customers: Customer[];
