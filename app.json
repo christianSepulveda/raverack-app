@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-wardrobe-app",
-    "slug": "mobile-wardrobe-app",
+    "name": "raverack-app",
+    "slug": "raverack-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.raverack.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b02fc061-f5fa-479b-a6b7-1ddd15d7f781"
+      }
+    },
+    "owner": "raverackapp"
   }
 }
