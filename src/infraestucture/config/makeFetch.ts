@@ -1,8 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { AppNavigationProps } from "../../UI/types/app/AppStackParamList";
-import { Alert } from "react-native";
 
 const makeFetch = async (
   endpoint: string,
@@ -10,10 +7,8 @@ const makeFetch = async (
   body?: any
 ): Promise<any> => {
   try {
-    const serverIP = await AsyncStorage.getItem("serverIP");
+    //const serverIP = await AsyncStorage.getItem("serverIP");
     const token = await AsyncStorage.getItem("token");
-    //const url = `http://${serverIP}/${endpoint}`;
-
     const url = "https://raverack-api-nodejs.onrender.com/" + endpoint;
 
     const configuration = {
