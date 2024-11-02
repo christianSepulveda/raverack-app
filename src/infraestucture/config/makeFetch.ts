@@ -7,9 +7,11 @@ const makeFetch = async (
   body?: any
 ): Promise<any> => {
   try {
-    //const serverIP = await AsyncStorage.getItem("serverIP");
     const token = await AsyncStorage.getItem("token");
-    const url = "https://raverack-api-nodejs.onrender.com/" + endpoint;
+    const localhost = "http://192.168.1.47:3000/";
+    const render = "https://raverack-api-nodejs.onrender.com/";
+
+    const url = localhost + endpoint;
 
     const configuration = {
       headers: {
@@ -18,7 +20,9 @@ const makeFetch = async (
       },
     };
 
-    console.log("------------------------------------------------------------------");
+    console.log(
+      "------------------------------------------------------------------"
+    );
     console.log("METHOD: ", method);
     console.log("URL: ", url);
     console.log("BODY: ", JSON.stringify(body));
